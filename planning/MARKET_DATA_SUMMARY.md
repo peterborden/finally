@@ -44,18 +44,25 @@ MarketDataSource (ABC)
 
 ## Test Suite
 
-**73 tests, all passing.** 6 test modules in `backend/tests/market/`.
+**93 tests, all passing.** 7 test modules in `backend/tests/market/`.
 
 | Module | Tests | Coverage |
 |--------|-------|----------|
-| test_models.py | 11 | models.py: 100% |
-| test_cache.py | 13 | cache.py: 100% |
-| test_simulator.py | 17 | simulator.py: 98% |
-| test_simulator_source.py | 10 | (integration tests) |
+| test_models.py | 15 | models.py: 100% |
+| test_cache.py | 16 | cache.py: 100% |
+| test_simulator.py | 21 | simulator.py: 98% |
+| test_simulator_source.py | 11 | (integration tests) |
 | test_factory.py | 7 | factory.py: 100% |
-| test_massive.py | 13 | massive_client.py: 56% (expected — API methods mocked) |
+| test_massive.py | 17 | massive_client.py: 95% (real-model contract tests) |
+| test_stream.py | 6 | stream.py: 92% (SSE generator) |
 
-Overall coverage: 84%.
+Overall coverage: 97%.
+
+A second independent review (`planning/MARKET_DATA_REVIEW_SP.md`) found and fixed a
+High-severity bug in the Massive real-data path (wrong trade-timestamp field/unit,
+masked by MagicMock tests), added a daily-change reference price, made ticker
+normalization consistent across both sources, and added SSE + real-model Massive
+contract tests. See that document's Resolution Status section for details.
 
 ## Code Review & Fixes Applied
 

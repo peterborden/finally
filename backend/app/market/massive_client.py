@@ -4,14 +4,19 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import time
 
 from massive import RESTClient
 from massive.rest.models import SnapshotMarketType
 
 from .cache import PriceCache
 from .interface import MarketDataSource
+from .utils import normalize_ticker
 
 logger = logging.getLogger(__name__)
+
+# Massive/Polygon trade timestamps are Unix nanoseconds.
+NANOSECONDS_PER_SECOND = 1_000_000_000
 
 
 class MassiveDataSource(MarketDataSource):
@@ -40,7 +45,7 @@ class MassiveDataSource(MarketDataSource):
 
     async def start(self, tickers: list[str]) -> None:
         self._client = RESTClient(api_key=self._api_key)
-        self._tickers = list(tickers)
+        self._tickers = [normalize_ticker(t) for t in tickers]
 
         # Do an immediate first poll so the cache has data right away
         await self._poll_once()
@@ -64,13 +69,17 @@ class MassiveDataSource(MarketDataSource):
         logger.info("Massive poller stopped")
 
     async def add_ticker(self, ticker: str) -> None:
-        ticker = ticker.upper().strip()
+        ticker = normalize_ticker(ticker)
         if ticker not in self._tickers:
             self._tickers.append(ticker)
-            logger.info("Massive: added ticker %s (will appear on next poll)", ticker)
+            logger.info("Massive: added ticker %s", ticker)
+            # Poll immediately so the new ticker has a price right away rather
+            # than waiting up to poll_interval seconds for the next cycle.
+            if self._client:
+                await self._poll_once()
 
     async def remove_ticker(self, ticker: str) -> None:
-        ticker = ticker.upper().strip()
+        ticker = normalize_ticker(ticker)
         self._tickers = [t for t in self._tickers if t != ticker]
         self._cache.remove(ticker)
         logger.info("Massive: removed ticker %s", ticker)
@@ -98,16 +107,19 @@ class MassiveDataSource(MarketDataSource):
             processed = 0
             for snap in snapshots:
                 try:
-                    price = snap.last_trade.price
-                    # Massive timestamps are Unix milliseconds → convert to seconds
-                    timestamp = snap.last_trade.timestamp / 1000.0
+                    last_trade = snap.last_trade
+                    price = last_trade.price
+                    if price is None:
+                        raise ValueError("missing last trade price")
                     self._cache.update(
                         ticker=snap.ticker,
                         price=price,
-                        timestamp=timestamp,
+                        timestamp=self._trade_timestamp(last_trade),
+                        # Prior-day close is the natural daily-change reference.
+                        reference_price=self._reference_price(snap),
                     )
                     processed += 1
-                except (AttributeError, TypeError) as e:
+                except (AttributeError, TypeError, ValueError) as e:
                     logger.warning(
                         "Skipping snapshot for %s: %s",
                         getattr(snap, "ticker", "???"),
@@ -119,6 +131,31 @@ class MassiveDataSource(MarketDataSource):
             logger.error("Massive poll failed: %s", e)
             # Don't re-raise — the loop will retry on the next interval.
             # Common failures: 401 (bad key), 429 (rate limit), network errors.
+
+    @staticmethod
+    def _trade_timestamp(last_trade) -> float:
+        """Best-available trade timestamp, in Unix seconds.
+
+        Massive's LastTrade exposes nanosecond timestamps under several names
+        (sip/participant/trf); the legacy `.timestamp` attribute does not exist.
+        Falls back to wall-clock time when none are present so a valid price is
+        never discarded over a missing timestamp.
+        """
+        ts_ns = (
+            getattr(last_trade, "sip_timestamp", None)
+            or getattr(last_trade, "participant_timestamp", None)
+            or getattr(last_trade, "trf_timestamp", None)
+        )
+        if ts_ns is None:
+            return time.time()
+        return ts_ns / NANOSECONDS_PER_SECOND
+
+    @staticmethod
+    def _reference_price(snap) -> float | None:
+        """Prior-day close for daily-change calculations, or None if absent."""
+        prev_day = getattr(snap, "prev_day", None)
+        close = getattr(prev_day, "close", None) if prev_day is not None else None
+        return close if close else None
 
     def _fetch_snapshots(self) -> list:
         """Synchronous call to the Massive REST API. Runs in a thread."""

@@ -7,6 +7,24 @@
 
 ---
 
+## 0. Resolution Status (updated 2026-06-27)
+
+**All findings below have been fixed.** Post-fix state:
+
+- **Tests:** 93 passed (was 73), **97% coverage** (was 91%), ruff clean, wheel builds, `uv lock --check` passes.
+- **H1/H2 (Massive timestamp):** now reads `sip_timestamp` (with `participant_/trf_` fallbacks) and converts from **nanoseconds** (`/1e9`); a missing timestamp falls back to wall-clock instead of discarding the price. `massive_client.py:_trade_timestamp`.
+- **Contract test added:** `test_massive.py` now builds snapshots from the **real** `TickerSnapshot.from_dict(...)` model, so attribute/unit drift fails loudly. This test reproduced (and now guards) H1/H2.
+- **M1 (normalization):** shared `app/market/utils.py:normalize_ticker` applied consistently across both sources and the simulator core.
+- **M2 (SSE):** `stream.py` coverage 33% → 92% via `tests/market/test_stream.py`; `create_stream_router` now builds a fresh `APIRouter` per call.
+- **M3 (daily change %):** `PriceUpdate` gained `reference_price` + `daily_change`/`daily_change_percent`; `PriceCache` anchors a session reference (first price seen) and the Massive source supplies prior-day close. Exposed in `to_dict()` / SSE payload.
+- **L1:** `PriceCache.version` now reads under the lock.
+- **L2:** Massive `add_ticker` polls immediately when live.
+- **L3:** `massive` pinned to `>=2.2.0,<3`.
+
+Remaining uncovered lines are inherently runtime-only (infinite poll loop, real REST call, the `StreamingResponse` wrapper, and cancellation handlers). Original findings preserved below for the record.
+
+---
+
 ## 1. Executive Summary
 
 The market data subsystem is well-architected and the **simulator path (the default) is solid and correct**. Tests are green, lint is clean, and coverage is high. However, this review found a **High-severity defect in the Massive (real-data) path that is fully masked by the mocked tests**: the code reads a trade timestamp field that does not exist on the real Massive/Polygon model, which would cause *every* price snapshot to be silently skipped when a real `MASSIVE_API_KEY` is supplied. Because the simulator is the documented default, the demo experience is unaffected — but the "real market data" feature, as written, would produce an empty price stream.
