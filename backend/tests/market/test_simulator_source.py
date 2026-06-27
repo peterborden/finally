@@ -136,3 +136,23 @@ class TestSimulatorDataSource:
         # Just verify it starts and stops cleanly
         await asyncio.sleep(0.2)
         await source.stop()
+
+    async def test_tickers_are_normalized(self):
+        """Lower-case / padded tickers are canonicalized to match the Massive source."""
+        cache = PriceCache()
+        source = SimulatorDataSource(price_cache=cache, update_interval=0.1)
+        await source.start(["aapl", "  googl "])
+
+        assert set(source.get_tickers()) == {"AAPL", "GOOGL"}
+        # Cache is keyed by the normalized symbol with a seed (not random) price
+        assert cache.get_price("AAPL") == 190.00
+        assert cache.get("aapl") is None
+
+        await source.add_ticker(" tsla ")
+        assert "TSLA" in source.get_tickers()
+        assert cache.get_price("TSLA") == 250.00
+
+        await source.remove_ticker("tsla")
+        assert "TSLA" not in source.get_tickers()
+
+        await source.stop()

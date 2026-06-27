@@ -101,3 +101,35 @@ class TestPriceCache:
         cache = PriceCache()
         update = cache.update("AAPL", 190.12345)
         assert update.price == 190.12
+
+    def test_first_price_becomes_daily_reference(self):
+        """The first price seen anchors the session daily-change reference."""
+        cache = PriceCache()
+        cache.update("AAPL", 190.00)
+        update = cache.update("AAPL", 195.00)
+        assert update.reference_price == 190.00
+        assert update.daily_change == 5.00
+        # Reference is stable across subsequent ticks
+        update = cache.update("AAPL", 200.00)
+        assert update.reference_price == 190.00
+        assert update.daily_change == 10.00
+
+    def test_explicit_reference_price_overrides(self):
+        """An explicit reference_price (e.g. prior-day close) takes precedence."""
+        cache = PriceCache()
+        update = cache.update("AAPL", 195.00, reference_price=188.00)
+        assert update.reference_price == 188.00
+        assert update.daily_change == 7.00
+        # Subsequent updates without an explicit reference keep the stored one
+        update = cache.update("AAPL", 190.00)
+        assert update.reference_price == 188.00
+
+    def test_remove_clears_reference(self):
+        """Removing a ticker also clears its stored reference price."""
+        cache = PriceCache()
+        cache.update("AAPL", 190.00, reference_price=180.00)
+        cache.remove("AAPL")
+        # Re-adding starts a fresh session reference
+        update = cache.update("AAPL", 200.00)
+        assert update.reference_price == 200.00
+        assert update.daily_change == 0.0

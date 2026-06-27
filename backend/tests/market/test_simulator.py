@@ -65,6 +65,30 @@ class TestGBMSimulator:
         result = sim.step()
         assert result == {}
 
+    def test_full_default_watchlist_cholesky_is_valid(self):
+        """The correlation matrix for all 10 default tickers is positive-definite.
+
+        A malformed correlation structure would make np.linalg.cholesky raise;
+        this guards the full default set rather than just the 1-2 ticker cases.
+        """
+        defaults = list(SEED_PRICES.keys())
+        assert len(defaults) == 10
+        sim = GBMSimulator(tickers=defaults)
+        result = sim.step()
+        assert set(result.keys()) == set(defaults)
+        assert all(p > 0 for p in result.values())
+
+    def test_tickers_are_normalized(self):
+        """Tickers are canonicalized so 'aapl' and ' AAPL ' map to 'AAPL'."""
+        sim = GBMSimulator(tickers=["aapl", "  googl "])
+        assert set(sim.get_tickers()) == {"AAPL", "GOOGL"}
+        # Seed price resolves (not a random fallback) because the key normalized
+        assert sim.get_price("aapl") == SEED_PRICES["AAPL"]
+        sim.add_ticker("tsla")
+        assert "TSLA" in sim.get_tickers()
+        sim.remove_ticker(" tsla ")
+        assert "TSLA" not in sim.get_tickers()
+
     def test_prices_change_over_time(self):
         """After many steps, prices should have drifted from their seeds."""
         sim = GBMSimulator(tickers=["AAPL"])
