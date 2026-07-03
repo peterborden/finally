@@ -1,0 +1,3 @@
+- [Project LLM Design](project-llm-design.md) — FinAlly chat LLM: openrouter/openai/gpt-oss-120b via Cerebras, reasoning_effort=low, structured outputs, 20-message history cap
+- [Prompt Construction Risks](prompt-construction-risks.md) — Portfolio context injected verbatim every call; watchlist prices in context inflated by live prices; no portfolio context caching
+- [Model Verdict](model-verdict.md) — gpt-oss-120b is over-provisioned for trade extraction; reasoning_effort=low partially mitigates but model is still heavy for JSON extraction

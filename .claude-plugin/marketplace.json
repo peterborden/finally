@@ -1,0 +1,20 @@
+{   
+    "name": "PMB-tools",
+    "owner": {
+        "name": "PMB",
+        "email": "peter.borden@gmail.com"
+    },
+    "plugins": [
+        {
+            "name": "independent-reviewer",
+            "source": "./independent-reviewer",
+            "version": "1.0.0",
+            "description": "A plugin that carries out an independent review of all changes since the last commit.",
+            "author": {
+                "name": "Peter"
+            }
+        }
+    ]
+}           
+        
+    
