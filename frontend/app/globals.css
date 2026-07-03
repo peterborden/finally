@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-bg-base text-gray-200 font-mono antialiased;
+  overflow: hidden; /* the terminal manages its own scroll regions */
+}
+
+/* Thin, unobtrusive scrollbars for the dense panels. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #30363d transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #30363d;
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Respect reduced-motion for the price-flash animations. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-flash-up,
+  .animate-flash-down {
+    animation: none !important;
+  }
+}
