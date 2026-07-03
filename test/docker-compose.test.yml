@@ -1,0 +1,52 @@
+# FinAlly E2E harness — app container + Playwright container.
+# Keeps browser deps out of the production image (PLAN §12).
+#
+# Run from the repo root:
+#   docker compose -f test/docker-compose.test.yml up --build --abort-on-container-exit --exit-code-from playwright
+#
+# The `playwright` service exit code is the suite result (0 = green).
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: finally:test
+    environment:
+      # Deterministic, offline, free: mock LLM + simulator market data.
+      LLM_MOCK: "true"
+      OPENROUTER_API_KEY: "test-key-not-used-when-mocked"
+      MASSIVE_API_KEY: ""            # empty -> built-in simulator
+      FINALLY_DB_PATH: "/app/db/finally.db"
+    volumes:
+      - finally-test-db:/app/db      # fresh, ephemeral DB per volume
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0) if urllib.request.urlopen('http://localhost:8000/api/health').status==200 else sys.exit(1)"]
+      interval: 3s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.49.0-noble
+    depends_on:
+      app:
+        condition: service_healthy
+    environment:
+      BASE_URL: "http://app:8000"
+      CI: "true"
+    working_dir: /work
+    volumes:
+      - ..:/repo:ro                  # read-only view of the repo (for reference)
+      - ./:/work                     # the test suite (read-write for reports)
+    # Install deps against the pinned version, then run the full suite.
+    command: >
+      bash -lc "
+        npm ci --no-audit --no-fund || npm install --no-audit --no-fund;
+        npx playwright test
+      "
+
+volumes:
+  finally-test-db:

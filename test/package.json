@@ -1,0 +1,19 @@
+{
+  "name": "finally-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright E2E + API contract test suite for FinAlly",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:api": "playwright test --project=api",
+    "test:e2e": "playwright test --project=e2e",
+    "test:headed": "playwright test --project=e2e --headed",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report",
+    "install:browsers": "playwright install --with-deps chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}
