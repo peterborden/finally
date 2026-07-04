@@ -48,7 +48,17 @@ export default defineConfig({
       name: 'e2e',
       testDir: './e2e',
       dependencies: ['api'], // if the API contract is broken, fail fast before UI
-      use: { ...devices['Desktop Chrome'], viewport: { width: 1600, height: 1000 } },
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1600, height: 1000 },
+        // The app is served over plain HTTP. Recent Chromium auto-upgrades http->https
+        // for non-localhost hosts (e.g. the compose service name `app`), which fails
+        // the TLS handshake against the plaintext server (ERR_SSL_PROTOCOL_ERROR).
+        // Disable the upgrade so navigations to http://app:8000 work in CI/compose.
+        launchOptions: {
+          args: ['--disable-features=HttpsUpgrades,HttpsFirstBalancedModeAutoEnable'],
+        },
+      },
     },
   ],
 });
