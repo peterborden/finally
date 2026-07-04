@@ -98,18 +98,19 @@ Which phases cover which requirements. Populated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | MKT-01…04 | — (existing) | Complete |
-| APP-01…03, DB-01…03 | Phase [N] | Pending |
-| WATCH-01…03 | Phase [N] | Pending |
-| PORT-01…06 | Phase [N] | Pending |
-| CHAT-01…07 | Phase [N] | Pending |
-| UI-01…10 | Phase [N] | Pending |
-| PKG-01…04 | Phase [N] | Pending |
+| APP-01, APP-02, APP-03 | Phase 1 | Pending |
+| DB-01, DB-02, DB-03 | Phase 1 | Pending |
+| WATCH-01, WATCH-02, WATCH-03 | Phase 2 | Pending |
+| PORT-01, PORT-02, PORT-03, PORT-04, PORT-05, PORT-06 | Phase 2 | Pending |
+| CHAT-01, CHAT-02, CHAT-03, CHAT-04, CHAT-05, CHAT-06, CHAT-07 | Phase 3 | Pending |
+| UI-01, UI-02, UI-03, UI-04, UI-05, UI-06, UI-07, UI-08, UI-09, UI-10 | Phase 4 | Pending |
+| PKG-01, PKG-02, PKG-03, PKG-04 | Phase 5 | Pending |
 
 **Coverage:**
-- v1 requirements (new): 33 total (excludes 4 already-validated MKT-*)
-- Mapped to phases: filled by roadmapper
-- Unmapped: filled by roadmapper
+- v1 requirements (new): 36 total (excludes 4 already-validated MKT-*)
+- Mapped to phases: 36 / 36 ✓ (Phase 1: 6, Phase 2: 9, Phase 3: 7, Phase 4: 10, Phase 5: 4)
+- Unmapped: 0 (no orphans, no duplicates)
 
 ---
 *Requirements defined: 2026-07-04*
-*Last updated: 2026-07-04 after initialization*
+*Last updated: 2026-07-04 after roadmap creation*
