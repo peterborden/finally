@@ -65,7 +65,7 @@ if [[ "${FORCE_BUILD}" -eq 1 || "${IMAGE_EXISTS}" -eq 0 ]]; then
   echo "==> Building image ${IMAGE_NAME} ..."
   BUILD_ARGS=()
   [[ "${NO_CACHE}" -eq 1 ]] && BUILD_ARGS+=(--no-cache)
-  docker build "${BUILD_ARGS[@]}" -t "${IMAGE_NAME}" .
+  docker build ${BUILD_ARGS[@]+"${BUILD_ARGS[@]}"} -t "${IMAGE_NAME}" .
 else
   echo "==> Image ${IMAGE_NAME} already exists (use --build to rebuild)."
 fi
@@ -92,7 +92,7 @@ docker run -d \
   --name "${CONTAINER_NAME}" \
   -p "${HOST_PORT}:${CONTAINER_PORT}" \
   -v "${VOLUME_NAME}:/app/db" \
-  "${ENV_ARGS[@]}" \
+  ${ENV_ARGS[@]+"${ENV_ARGS[@]}"} \
   --restart unless-stopped \
   "${IMAGE_NAME}" >/dev/null
 
