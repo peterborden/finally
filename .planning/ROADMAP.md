@@ -30,7 +30,9 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. `GET /api/health` returns a healthy status suitable for Docker/deployment checks
   3. On first request, a SQLite database is created at `db/finally.db` with all six tables (`users_profile`, `watchlist`, `positions`, `trades`, `portfolio_snapshots`, `chat_messages`), seeded with a $10,000 profile and the 10 default tickers
   4. Navigating to `/` serves files from the static frontend directory (placeholder until the UI ships in Phase 4)
-**Plans**: TBD
+**Plans**: 2 plans
+- [ ] 01-01-PLAN.md — SQLite database layer: six-table schema, env-driven connection, seed data, idempotent lazy init (DB-01, DB-02, DB-03)
+- [ ] 01-02-PLAN.md — FastAPI app assembly: lifespan wiring market source + SSE, health check, static serving, lazy DB middleware (APP-01, APP-02, APP-03, DB-01)
 
 ### Phase 2: Watchlist & Trading APIs
 **Goal**: Users can manage their watchlist and trade a simulated portfolio through REST endpoints backed by live prices from the shared price cache.
@@ -91,7 +93,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Platform Foundation | 0/TBD | Not started | - |
+| 1. Platform Foundation | 0/2 | Not started | - |
 | 2. Watchlist & Trading APIs | 0/TBD | Not started | - |
 | 3. AI Chat Assistant | 0/TBD | Not started | - |
 | 4. Frontend Terminal UI | 0/TBD | Not started | - |
