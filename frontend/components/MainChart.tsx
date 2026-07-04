@@ -23,6 +23,8 @@ export function MainChart({ ticker, quote, series }: MainChartProps) {
   return (
     <Panel
       title={ticker ? `${ticker} · Live` : 'Chart'}
+      testId="main-chart"
+      titleTestId="main-chart-title"
       right={
         quote ? (
           <div className="flex items-center gap-3 tabular-nums">

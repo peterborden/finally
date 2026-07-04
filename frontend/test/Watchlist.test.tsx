@@ -32,7 +32,7 @@ describe('Watchlist', () => {
     setup();
     expect(screen.getByText('AAPL')).toBeInTheDocument();
     expect(screen.getByText('GOOGL')).toBeInTheDocument();
-    expect(screen.getByTestId('price-AAPL')).toHaveTextContent('192.50');
+    expect(screen.getByTestId('watchlist-price-AAPL')).toHaveTextContent('192.50');
     expect(screen.getByText('+0.78%')).toBeInTheDocument();
     expect(screen.getByText('-0.57%')).toBeInTheDocument();
   });
@@ -42,7 +42,7 @@ describe('Watchlist', () => {
       items: [{ ticker: 'PYPL', price: null, previous_price: null, change: null, change_percent: null, direction: 'flat' }],
       selected: null,
     });
-    expect(screen.getByTestId('price-PYPL')).toHaveTextContent('—');
+    expect(screen.getByTestId('watchlist-price-PYPL')).toHaveTextContent('—');
   });
 
   it('selects a ticker when its row is clicked', async () => {
@@ -80,7 +80,7 @@ describe('Watchlist', () => {
       />,
     );
     // No flash on first render.
-    expect(screen.getByTestId('price-AAPL')).not.toHaveClass('animate-flash-up');
+    expect(screen.getByTestId('watchlist-price-AAPL')).not.toHaveClass('animate-flash-up');
 
     const up: PriceMap = { AAPL: { ...base.AAPL, price: 193.75, direction: 'up' } };
     rerender(
@@ -94,7 +94,7 @@ describe('Watchlist', () => {
         onRemove={vi.fn()}
       />,
     );
-    const cell = screen.getByTestId('price-AAPL');
+    const cell = screen.getByTestId('watchlist-price-AAPL');
     expect(cell).toHaveClass('animate-flash-up');
     expect(cell).toHaveAttribute('data-flash', 'up');
   });
@@ -110,7 +110,7 @@ describe('Watchlist', () => {
     rerender(
       <Watchlist items={[items[0]]} prices={down} sparklines={{}} selected="AAPL" onSelect={vi.fn()} onAdd={vi.fn()} onRemove={vi.fn()} />,
     );
-    expect(screen.getByTestId('price-AAPL')).toHaveClass('animate-flash-down');
+    expect(screen.getByTestId('watchlist-price-AAPL')).toHaveClass('animate-flash-down');
   });
 
   it('prefers the live SSE quote over the persisted row', () => {
@@ -118,7 +118,7 @@ describe('Watchlist', () => {
       AAPL: { ticker: 'AAPL', price: 200.0, previous_price: 199, change: 1, change_percent: 0.5, direction: 'up' },
     };
     setup({ prices });
-    expect(screen.getByTestId('price-AAPL')).toHaveTextContent('200.00');
+    expect(screen.getByTestId('watchlist-price-AAPL')).toHaveTextContent('200.00');
   });
 
   it('renders an empty state with no tickers', () => {

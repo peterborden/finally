@@ -45,7 +45,7 @@ describe('ChatPanel', () => {
     await waitFor(() => expect(screen.queryByTestId('chat-loading')).not.toBeInTheDocument());
     expect(screen.getByText(/Bought 5 shares of AAPL/i)).toBeInTheDocument();
     // Inline trade confirmation chip.
-    expect(screen.getByTestId('chat-actions')).toHaveTextContent('BUY 5 AAPL');
+    expect(screen.getByTestId('chat-action')).toHaveTextContent('BUY 5 AAPL');
   });
 
   it('fires onActions when the response executed a trade', async () => {

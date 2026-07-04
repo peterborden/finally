@@ -58,13 +58,14 @@ export function TradeBar({ prices, selected, onTraded }: TradeBarProps) {
   }
 
   return (
-    <div className="flex shrink-0 flex-col gap-1 border-t border-border-subtle bg-bg-panel px-3 py-2">
+    <div data-testid="trade-bar" className="flex shrink-0 flex-col gap-1 border-t border-border-subtle bg-bg-panel px-3 py-2">
       <form className="flex items-center gap-2">
         <input
           value={ticker}
           onChange={(e) => setTicker(e.target.value)}
           placeholder={selected ? selected : 'TICKER'}
           aria-label="Trade ticker"
+          data-testid="trade-ticker-input"
           className="w-24 rounded border border-border-subtle bg-bg-base px-2 py-1 text-sm uppercase text-gray-100 outline-none focus:border-brand"
         />
         <input
@@ -73,6 +74,7 @@ export function TradeBar({ prices, selected, onTraded }: TradeBarProps) {
           placeholder="Qty"
           inputMode="decimal"
           aria-label="Trade quantity"
+          data-testid="trade-qty-input"
           className="w-20 rounded border border-border-subtle bg-bg-base px-2 py-1 text-sm tabular-nums text-gray-100 outline-none focus:border-brand"
         />
         <span className="min-w-[7rem] text-xs text-flat">
@@ -83,6 +85,7 @@ export function TradeBar({ prices, selected, onTraded }: TradeBarProps) {
           type="submit"
           onClick={(e) => submit('buy', e)}
           disabled={busy}
+          data-testid="trade-buy-button"
           className="rounded bg-submit px-4 py-1 text-sm font-semibold text-white transition-colors hover:brightness-110 disabled:opacity-50"
         >
           Buy
@@ -91,6 +94,7 @@ export function TradeBar({ prices, selected, onTraded }: TradeBarProps) {
           type="submit"
           onClick={(e) => submit('sell', e)}
           disabled={busy}
+          data-testid="trade-sell-button"
           className="rounded border border-down px-4 py-1 text-sm font-semibold text-down transition-colors hover:bg-down/10 disabled:opacity-50"
         >
           Sell

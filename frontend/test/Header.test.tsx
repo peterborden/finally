@@ -21,8 +21,8 @@ describe('Header', () => {
 
   it('renders the connection dot with the current status', () => {
     render(<Header portfolio={portfolio} status="reconnecting" />);
-    const dot = screen.getByTestId('connection-dot');
-    expect(dot).toHaveAttribute('data-status', 'reconnecting');
+    const dot = screen.getByTestId('connection-status');
+    expect(dot).toHaveAttribute('data-state', 'reconnecting');
     expect(dot).toHaveTextContent('Reconnecting');
   });
 

@@ -68,7 +68,19 @@ export function usePriceStream(url = '/api/stream/prices'): PriceStreamState {
       setStatus(es.readyState === EventSource.CLOSED ? 'disconnected' : 'reconnecting');
     };
 
+    // The browser doesn't always fire EventSource.onerror when the network drops
+    // (an already-open SSE connection can linger), so also track connectivity via
+    // the window online/offline events. Going offline degrades the indicator; when
+    // connectivity returns, EventSource auto-retries and the next open/message
+    // flips us back to `connected`.
+    const handleOffline = () => setStatus('disconnected');
+    const handleOnline = () => setStatus('reconnecting');
+    window.addEventListener('offline', handleOffline);
+    window.addEventListener('online', handleOnline);
+
     return () => {
+      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('online', handleOnline);
       es.close();
       esRef.current = null;
       setStatus('disconnected');

@@ -34,7 +34,7 @@ const portfolio: Portfolio = {
 describe('PositionsTable', () => {
   it('renders position rows with computed money/percent columns', () => {
     render(<PositionsTable portfolio={portfolio} />);
-    const aapl = screen.getByTestId('pos-row-AAPL');
+    const aapl = screen.getByTestId('position-row-AAPL');
     expect(aapl).toHaveTextContent('AAPL');
     expect(aapl).toHaveTextContent('190.00'); // avg cost
     expect(aapl).toHaveTextContent('192.50'); // current price
@@ -45,7 +45,7 @@ describe('PositionsTable', () => {
 
   it('color-codes a losing position red', () => {
     render(<PositionsTable portfolio={portfolio} />);
-    const tsla = screen.getByTestId('pos-row-TSLA');
+    const tsla = screen.getByTestId('position-row-TSLA');
     expect(tsla).toHaveTextContent('-$75.00');
     const loss = tsla.querySelector('.text-down');
     expect(loss).toBeTruthy();
@@ -59,7 +59,7 @@ describe('PositionsTable', () => {
   it('selects a ticker when a row is clicked', async () => {
     const onSelect = vi.fn();
     render(<PositionsTable portfolio={portfolio} onSelect={onSelect} />);
-    await userEvent.click(screen.getByTestId('pos-row-TSLA'));
+    await userEvent.click(screen.getByTestId('position-row-TSLA'));
     expect(onSelect).toHaveBeenCalledWith('TSLA');
   });
 });

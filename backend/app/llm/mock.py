@@ -37,19 +37,19 @@ _NAME_TO_TICKER = {
 }
 
 _TRADE_RE = re.compile(
-    r"\b(?P<side>buy|sell)\s+(?P<qty>\d+(?:\.\d+)?)\s+(?:shares?\s+of\s+)?(?P<sym>[A-Za-z]{1,6})\b",
+    r"\b(?P<side>buy|sell)\s+(?P<qty>\d+(?:\.\d+)?)\s+(?:shares?\s+of\s+)?(?P<sym>[A-Za-z]{1,12})\b",
     re.IGNORECASE,
 )
 
 # add/watch a ticker
 _WATCH_ADD_RE = re.compile(
-    r"\b(?:add|watch)\s+(?P<sym>[A-Za-z]{1,6})\b",
+    r"\b(?:add|watch)\s+(?P<sym>[A-Za-z]{1,12})\b",
     re.IGNORECASE,
 )
 
 # remove/unwatch a ticker
 _WATCH_REMOVE_RE = re.compile(
-    r"\b(?:remove|unwatch|delete|drop)\s+(?P<sym>[A-Za-z]{1,6})\b",
+    r"\b(?:remove|unwatch|delete|drop)\s+(?P<sym>[A-Za-z]{1,12})\b",
     re.IGNORECASE,
 )
 

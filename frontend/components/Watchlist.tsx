@@ -47,7 +47,7 @@ function WatchlistRow({
   return (
     <tr
       onClick={onSelect}
-      data-testid={`watch-row-${quote.ticker}`}
+      data-testid={`watchlist-row-${quote.ticker}`}
       aria-selected={selected}
       className={`group cursor-pointer border-b border-border-muted transition-colors ${
         selected ? 'bg-brand/10' : 'hover:bg-bg-hover'
@@ -59,23 +59,27 @@ function WatchlistRow({
           <span className="text-sm font-semibold text-gray-100">{quote.ticker}</span>
         </div>
       </td>
-      <td className="px-2">
+      <td className="px-2" data-testid={`sparkline-${quote.ticker}`}>
         <Sparkline data={spark} />
       </td>
       <td
         key={flash.seq}
-        data-testid={`price-${quote.ticker}`}
+        data-testid={`watchlist-price-${quote.ticker}`}
         data-flash={flash.dir ?? ''}
         className={`px-2 text-right tabular-nums text-sm ${flashClass(flash)}`}
       >
         {fmtPrice(quote.price)}
       </td>
-      <td className={`px-2 text-right tabular-nums text-xs ${directionColor(quote.direction)}`}>
+      <td
+        data-testid={`watchlist-change-${quote.ticker}`}
+        className={`px-2 text-right tabular-nums text-xs ${directionColor(quote.direction)}`}
+      >
         {fmtPercent(quote.change_percent)}
       </td>
       <td className="pr-2 text-right">
         <button
           type="button"
+          data-testid={`remove-ticker-${quote.ticker}`}
           aria-label={`Remove ${quote.ticker}`}
           title={`Remove ${quote.ticker}`}
           onClick={(e) => {
@@ -115,6 +119,7 @@ export function Watchlist({ items, prices, sparklines, selected, onSelect, onAdd
   return (
     <Panel
       title="Watchlist"
+      testId="watchlist"
       right={
         <form onSubmit={submit} className="flex items-center gap-1">
           <input
@@ -122,11 +127,13 @@ export function Watchlist({ items, prices, sparklines, selected, onSelect, onAdd
             onChange={(e) => setInput(e.target.value)}
             placeholder="Add ticker"
             aria-label="Add ticker"
+            data-testid="add-ticker-input"
             className="w-24 rounded border border-border-subtle bg-bg-base px-2 py-0.5 text-xs uppercase text-gray-100 outline-none focus:border-brand"
           />
           <button
             type="submit"
             disabled={busy}
+            data-testid="add-ticker-button"
             className="rounded border border-border-subtle bg-bg-hover px-2 py-0.5 text-xs text-brand hover:border-brand disabled:opacity-50"
           >
             +

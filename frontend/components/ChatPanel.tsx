@@ -18,10 +18,11 @@ function ActionChips({ msg }: { msg: ChatMessage }) {
   const hasAny = (msg.trades?.length ?? 0) + (msg.watchlist_changes?.length ?? 0) + (msg.errors?.length ?? 0) > 0;
   if (!hasAny) return null;
   return (
-    <div className="mt-1.5 flex flex-wrap gap-1" data-testid="chat-actions">
+    <div className="mt-1.5 flex flex-wrap gap-1">
       {msg.trades?.map((t, i) => (
         <span
           key={`t${i}`}
+          data-testid="chat-action"
           className={`rounded border px-1.5 py-0.5 text-[10px] ${
             t.side === 'buy' ? 'border-up/40 text-up' : 'border-down/40 text-down'
           }`}
@@ -30,13 +31,13 @@ function ActionChips({ msg }: { msg: ChatMessage }) {
         </span>
       ))}
       {msg.watchlist_changes?.map((w, i) => (
-        <span key={`w${i}`} className="rounded border border-brand/40 px-1.5 py-0.5 text-[10px] text-brand">
+        <span key={`w${i}`} data-testid="chat-action" className="rounded border border-brand/40 px-1.5 py-0.5 text-[10px] text-brand">
           {w.action === 'add' ? '+ ' : '− '}
           {w.ticker}
         </span>
       ))}
       {msg.errors?.map((err, i) => (
-        <span key={`e${i}`} className="rounded border border-accent/50 px-1.5 py-0.5 text-[10px] text-accent">
+        <span key={`e${i}`} data-testid="chat-action" className="rounded border border-accent/50 px-1.5 py-0.5 text-[10px] text-accent">
           ⚠ {err}
         </span>
       ))}
@@ -135,11 +136,12 @@ export function ChatPanel({ collapsed, onToggle, onActions }: ChatPanelProps) {
         </button>
       </header>
 
-      <div ref={scrollRef} className="min-h-0 flex-1 space-y-3 overflow-y-auto px-3 py-3">
+      <div ref={scrollRef} data-testid="chat-messages" className="min-h-0 flex-1 space-y-3 overflow-y-auto px-3 py-3">
         {messages.map((m) => (
           <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div
-              data-testid={`chat-msg-${m.role}`}
+              data-testid="chat-message"
+              data-role={m.role}
               className={`max-w-[85%] rounded-lg px-3 py-2 text-xs leading-relaxed ${
                 m.role === 'user'
                   ? 'bg-brand/20 text-gray-100'
@@ -169,11 +171,13 @@ export function ChatPanel({ collapsed, onToggle, onActions }: ChatPanelProps) {
           placeholder="Ask FinAlly…"
           aria-label="Message FinAlly"
           disabled={loading}
+          data-testid="chat-input"
           className="min-w-0 flex-1 rounded border border-border-subtle bg-bg-base px-2 py-1.5 text-xs text-gray-100 outline-none focus:border-brand disabled:opacity-50"
         />
         <button
           type="submit"
           disabled={loading || !input.trim()}
+          data-testid="chat-send-button"
           className="rounded bg-submit px-3 py-1.5 text-xs font-semibold text-white hover:brightness-110 disabled:opacity-40"
         >
           Send

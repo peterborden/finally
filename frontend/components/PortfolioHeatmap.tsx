@@ -47,8 +47,8 @@ function TreemapCell(props: ContentProps) {
   return (
     <g
       onClick={() => name && onSelect?.(name)}
-      style={{ cursor: name ? 'pointer' : 'default' }}
-      data-testid={name ? `heat-${name}` : undefined}
+      style={{ cursor: name ? 'pointer' : 'default', backgroundColor: colorFor(pnlPct) }}
+      data-testid={name ? `heatmap-tile-${name}` : undefined}
     >
       <rect x={x} y={y} width={width} height={height} fill={colorFor(pnlPct)} stroke="#0d1117" strokeWidth={1} />
       {showText && name && (
@@ -77,7 +77,7 @@ export function PortfolioHeatmap({ portfolio, onSelect }: HeatmapProps) {
     }));
 
   return (
-    <Panel title="Allocation Heatmap" bodyClassName="p-1">
+    <Panel title="Allocation Heatmap" testId="portfolio-heatmap" bodyClassName="p-1">
       {data.length === 0 ? (
         <div className="flex h-full items-center justify-center text-xs text-flat">No positions to visualize.</div>
       ) : (

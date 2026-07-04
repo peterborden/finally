@@ -21,7 +21,7 @@ export function PnLChart({ snapshots }: PnLChartProps) {
   const stroke = last >= first ? '#3fb950' : '#f85149';
 
   return (
-    <Panel title="Portfolio Value" bodyClassName="p-2">
+    <Panel title="Portfolio Value" testId="pnl-chart" bodyClassName="p-2">
       {data.length < 2 ? (
         <div className="flex h-full items-center justify-center text-xs text-flat" data-testid="pnl-empty">
           Recording portfolio value…
