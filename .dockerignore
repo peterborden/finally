@@ -1,0 +1,47 @@
+# Keep the build context (and image) lean. Context root = project root.
+
+# VCS / CI
+.git
+.github
+.gitignore
+
+# Docker / scripts / docs — not needed inside the image
+Dockerfile
+.dockerignore
+docker-compose*.yml
+scripts
+planning
+test
+README.md
+LICENSE
+*.md
+!backend/README.md
+
+# Python artifacts
+**/__pycache__
+**/*.py[cod]
+**/.venv
+**/.pytest_cache
+**/.ruff_cache
+**/.mypy_cache
+**/.coverage
+**/htmlcov
+backend/tests
+backend/market_data_demo.py
+
+# Node / Next.js — source is copied in; build artifacts are regenerated
+**/node_modules
+frontend/.next
+frontend/out
+frontend/.turbo
+
+# Runtime data / secrets
+db/*.db
+db/*.sqlite3*
+**/*.sqlite3
+.env
+.env.*
+!.env.example
+
+# OS cruft
+**/.DS_Store

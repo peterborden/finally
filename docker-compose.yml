@@ -1,0 +1,27 @@
+# Optional convenience wrapper (PLAN §11). Equivalent to the docker run in
+# scripts/start_mac.sh:
+#   docker compose up --build -d
+#   docker compose down            # keeps the named volume (data persists)
+#
+# The SQLite DB persists in the named volume `finally-data` mounted at /app/db.
+# .env is loaded if present (OPENROUTER_API_KEY, optional MASSIVE_API_KEY, LLM_MOCK).
+
+services:
+  finally:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: finally:latest
+    container_name: finally
+    ports:
+      - "8000:8000"
+    volumes:
+      - finally-data:/app/db
+    # Load .env if it exists; don't fail the run when it's absent.
+    env_file:
+      - path: .env
+        required: false
+    restart: unless-stopped
+
+volumes:
+  finally-data:

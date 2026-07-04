@@ -1,0 +1,28 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# testing
+/coverage
+
+# The repo-root .gitignore has a broad `lib/` rule (meant for other packages);
+# re-include this project's source `lib/` so it is committed and builds in Docker.
+!lib/
+!/lib/**
