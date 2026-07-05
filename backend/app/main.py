@@ -20,6 +20,7 @@ from fastapi.staticfiles import StaticFiles
 from .db import get_db_path, init_database
 from .market import PriceCache, create_market_data_source, create_stream_router
 from .market.seed_prices import SEED_PRICES
+from .watchlist import create_watchlist_router
 
 logger = logging.getLogger(__name__)
 
@@ -99,6 +100,7 @@ def create_app() -> FastAPI:
         return await call_next(request)
 
     app.include_router(create_stream_router(cache))
+    app.include_router(create_watchlist_router())
 
     # --- Static frontend (mounted LAST so it never shadows /api/*) ---
 
