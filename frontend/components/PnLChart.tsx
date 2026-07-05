@@ -115,7 +115,10 @@ export function PnLChart({ history }: PnLChartProps) {
   const isEmpty = history.length === 0;
 
   return (
-    <div className="relative h-full min-h-[160px] w-full rounded border border-border-muted bg-panel p-2">
+    <div
+      data-testid="pnl-chart"
+      className="relative h-full min-h-[160px] w-full rounded border border-border-muted bg-panel p-2"
+    >
       <div ref={containerRef} className="h-full w-full" />
       {isEmpty && (
         <div className="absolute inset-0 flex items-center justify-center text-sm text-gray-400">
