@@ -5,16 +5,16 @@ milestone_name: milestone
 current_phase: 4
 current_phase_name: Frontend Terminal UI
 status: verifying
-stopped_at: Completed 05-02-PLAN.md
-last_updated: "2026-07-05T04:23:06.133Z"
+stopped_at: Completed 05-03-PLAN.md
+last_updated: "2026-07-05T04:35:27.594Z"
 last_activity: 2026-07-05
 last_activity_desc: Phase 4 execution started
 progress:
   total_phases: 5
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 18
-  completed_plans: 17
-  percent: 80
+  completed_plans: 18
+  percent: 100
 ---
 
 # Project State
@@ -71,6 +71,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 04 P06 | 25min | 1 tasks | 1 files |
 | Phase 05 P01 | 25min | 3 tasks | 3 files |
 | Phase 05 P02 | 15min | 3 tasks | 7 files |
+| Phase 05 P03 | 55min | 3 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -107,6 +108,8 @@ Recent decisions affecting current work:
 - [Phase ?]: [Phase 04-06] Bottom band laid out as a 3-column grid (heatmap/P&L chart/positions table) with a full-width TradeBar strip beneath, positions table independently scrollable
 - [Phase 05-01]: Copied backend/README.md into the Dockerfile dependency layer alongside pyproject.toml/uv.lock — hatchling validates the declared readme file exists during uv sync's editable build, even before the rest of the source is copied
 - [Phase 05-02]: Hardcoded literal -v finally-data:/app/db in docker run invocations instead of variable interpolation, to match PLAN.md's documented convention verbatim and stay grep-verifiable
+- [Phase ?]: [Phase 05-03]: Renamed the E2E docker-compose app service from app to webapp -- Chromium's HSTS-preload list includes the .app gTLD, so a bare hostname of app was silently upgraded to HTTPS and failed against the plain-HTTP server
+- [Phase ?]: [Phase 05-03]: SSE reconnect E2E test blocks/unblocks /api/stream/prices via page.route() instead of context.setOffline() -- Chromium's CDP offline emulation does not tear down an already-open EventSource stream over loopback in this Docker setup
 
 ### Pending Todos
 
@@ -130,6 +133,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-05T04:22:57.216Z
-Stopped at: Completed 05-02-PLAN.md
+Last session: 2026-07-05T04:35:27.588Z
+Stopped at: Completed 05-03-PLAN.md
 Resume file: None

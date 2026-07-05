@@ -66,7 +66,7 @@ Requirements for the initial release. Each maps to a roadmap phase. The market d
 - [x] **PKG-01**: Multi-stage Dockerfile builds the Next.js static export (Node) and runs FastAPI serving both API and static assets on port 8000
 - [x] **PKG-02**: SQLite persists via a volume mount (`db/finally.db` ↔ `/app/db`)
 - [x] **PKG-03**: Idempotent start/stop scripts for macOS/Linux and Windows, plus `.env.example`
-- [ ] **PKG-04**: Playwright E2E tests in `test/` (with `docker-compose.test.yml`) run under `LLM_MOCK=true` covering the key user scenarios
+- [x] **PKG-04**: Playwright E2E tests in `test/` (with `docker-compose.test.yml`) run under `LLM_MOCK=true` covering the key user scenarios
 
 ## v2 Requirements
 
