@@ -1,0 +1,45 @@
+# Health-gated E2E harness: builds the Plan 01 `finally` image, boots it
+# under LLM_MOCK=true (deterministic /api/chat, no real API keys needed),
+# and runs the Playwright suite against it once /api/health reports ok.
+#
+# Usage (from the repo root):
+#   docker compose -f test/docker-compose.test.yml up --build \
+#     --abort-on-container-exit --exit-code-from playwright
+#
+# The `app` service uses an anonymous volume for /app/db so every run
+# starts from the seeded default state (10-ticker watchlist, $10k cash) --
+# no host bind mount, no leftover trades from a previous run.
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    environment:
+      - LLM_MOCK=true
+      - FINALLY_DB_PATH=/app/db/finally.db
+    expose:
+      - "8000"
+    volumes:
+      - finally-e2e-db:/app/db
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health', timeout=3)"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 15s
+
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.61.1-jammy
+    working_dir: /work
+    volumes:
+      - ./:/work
+    environment:
+      - E2E_BASE_URL=http://app:8000
+    depends_on:
+      app:
+        condition: service_healthy
+    command: sh -c "npm install && npx playwright test"
+
+volumes:
+  finally-e2e-db:
