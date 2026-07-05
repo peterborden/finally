@@ -9,6 +9,7 @@ so a ticker starts/stops streaming immediately.
 from __future__ import annotations
 
 import logging
+import sqlite3
 import uuid
 from datetime import datetime, timezone
 
@@ -16,7 +17,7 @@ from fastapi import APIRouter, Request
 from pydantic import BaseModel, field_validator
 
 from .db import get_connection, get_db_path
-from .market import PriceCache
+from .market import MarketDataSource, PriceCache
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +29,62 @@ _USER_ID = "default"
 def _normalize_ticker(value: str) -> str:
     """Upper-case and strip a ticker so "aapl " and "AAPL" collide."""
     return value.strip().upper()
+
+
+async def add_ticker(
+    conn: sqlite3.Connection, market_source: MarketDataSource | None, ticker: str
+) -> str:
+    """Add `ticker` to the default user's watchlist; idempotent.
+
+    Reusable service function shared by the watchlist HTTP router (plan
+    02-01) and the AI chat auto-execution path (plan 03-03). Takes an
+    already-open connection so the caller controls commit/close; the
+    caller is responsible for reading back any row it needs afterward.
+    """
+    normalized = _normalize_ticker(ticker)
+    now = datetime.now(timezone.utc).isoformat()
+
+    conn.execute(
+        "INSERT OR IGNORE INTO watchlist (id, user_id, ticker, added_at) VALUES (?, ?, ?, ?)",
+        (uuid.uuid4().hex, _USER_ID, normalized, now),
+    )
+    conn.commit()
+
+    if market_source is not None:
+        await market_source.add_ticker(normalized)
+    else:
+        logger.warning(
+            "market_source unavailable; %s added to DB but not streaming", normalized
+        )
+
+    return normalized
+
+
+async def remove_ticker(
+    conn: sqlite3.Connection, market_source: MarketDataSource | None, ticker: str
+) -> bool:
+    """Remove `ticker` from the default user's watchlist; idempotent.
+
+    Returns whether a row was actually removed. Reusable service function
+    shared by the watchlist HTTP router and the AI chat auto-execution path.
+    """
+    normalized = _normalize_ticker(ticker)
+
+    cursor = conn.execute(
+        "DELETE FROM watchlist WHERE user_id = ? AND ticker = ?",
+        (_USER_ID, normalized),
+    )
+    conn.commit()
+    removed = cursor.rowcount > 0
+
+    if market_source is not None:
+        await market_source.remove_ticker(normalized)
+    else:
+        logger.warning(
+            "market_source unavailable; %s removed from DB but not stopped", normalized
+        )
+
+    return removed
 
 
 class WatchlistAddRequest(BaseModel):
@@ -77,63 +134,36 @@ def create_watchlist_router() -> APIRouter:
         return [_build_entry(cache, row["ticker"], row["added_at"]) for row in rows]
 
     @router.post("", status_code=201)
-    async def add_ticker(body: WatchlistAddRequest, request: Request) -> WatchlistEntry:
+    async def post_ticker(body: WatchlistAddRequest, request: Request) -> WatchlistEntry:
         """POST /api/watchlist — add a ticker; safe no-op if already present."""
-        ticker = body.ticker
-        now = datetime.now(timezone.utc).isoformat()
+        market_source = request.app.state.market_source
 
         conn = get_connection(get_db_path())
         try:
-            conn.execute(
-                "INSERT OR IGNORE INTO watchlist (id, user_id, ticker, added_at) "
-                "VALUES (?, ?, ?, ?)",
-                (uuid.uuid4().hex, _USER_ID, ticker, now),
-            )
-            conn.commit()
+            normalized = await add_ticker(conn, market_source, body.ticker)
             row = conn.execute(
                 "SELECT ticker, added_at FROM watchlist WHERE user_id = ? AND ticker = ?",
-                (_USER_ID, ticker),
+                (_USER_ID, normalized),
             ).fetchone()
         finally:
             conn.close()
 
-        market_source = request.app.state.market_source
-        if market_source is not None:
-            await market_source.add_ticker(ticker)
-        else:
-            logger.warning(
-                "market_source unavailable; %s added to DB but not streaming", ticker
-            )
-
         cache = request.app.state.price_cache
-        added_at = row["added_at"] if row is not None else now
-        return _build_entry(cache, ticker, added_at)
+        added_at = row["added_at"] if row is not None else datetime.now(timezone.utc).isoformat()
+        return _build_entry(cache, normalized, added_at)
 
     @router.delete("/{ticker}")
-    async def remove_ticker(ticker: str, request: Request) -> dict[str, str | bool]:
+    async def delete_ticker(ticker: str, request: Request) -> dict[str, str | bool]:
         """DELETE /api/watchlist/{ticker} — idempotent removal."""
-        normalized = _normalize_ticker(ticker)
+        market_source = request.app.state.market_source
 
         conn = get_connection(get_db_path())
         try:
-            cursor = conn.execute(
-                "DELETE FROM watchlist WHERE user_id = ? AND ticker = ?",
-                (_USER_ID, normalized),
-            )
-            conn.commit()
-            removed = cursor.rowcount > 0
+            removed = await remove_ticker(conn, market_source, ticker)
         finally:
             conn.close()
 
-        market_source = request.app.state.market_source
-        if market_source is not None:
-            await market_source.remove_ticker(normalized)
-        else:
-            logger.warning(
-                "market_source unavailable; %s removed from DB but not stopped", normalized
-            )
-
-        return {"ticker": normalized, "removed": removed}
+        return {"ticker": _normalize_ticker(ticker), "removed": removed}
 
     return router
 
