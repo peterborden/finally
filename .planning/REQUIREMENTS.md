@@ -16,10 +16,10 @@ Requirements for the initial release. Each maps to a roadmap phase. The market d
 
 ### Platform Foundation
 
-- [ ] **APP-01**: FastAPI app (`app/main.py`) starts the market data source and mounts the SSE router on startup
-- [ ] **APP-02**: `GET /api/health` returns a health check for Docker/deployment
-- [ ] **APP-03**: FastAPI serves the exported Next.js frontend as static files from `/`
-- [ ] **DB-01**: SQLite database is lazily created and seeded on first request if absent (no migration step)
+- [x] **APP-01**: FastAPI app (`app/main.py`) starts the market data source and mounts the SSE router on startup
+- [x] **APP-02**: `GET /api/health` returns a health check for Docker/deployment
+- [x] **APP-03**: FastAPI serves the exported Next.js frontend as static files from `/`
+- [x] **DB-01**: SQLite database is lazily created and seeded on first request if absent (no migration step)
 - [ ] **DB-02**: Schema includes `users_profile`, `watchlist`, `positions`, `trades`, `portfolio_snapshots`, `chat_messages`, each with a `user_id` column defaulting to `"default"`
 - [ ] **DB-03**: Default seed creates a profile with $10,000 cash and a 10-ticker watchlist (AAPL, GOOGL, MSFT, AMZN, TSLA, NVDA, META, JPM, V, NFLX)
 
@@ -107,6 +107,7 @@ Which phases cover which requirements. Populated during roadmap creation.
 | PKG-01, PKG-02, PKG-03, PKG-04 | Phase 5 | Pending |
 
 **Coverage:**
+
 - v1 requirements (new): 36 total (excludes 4 already-validated MKT-*)
 - Mapped to phases: 36 / 36 ✓ (Phase 1: 6, Phase 2: 9, Phase 3: 7, Phase 4: 10, Phase 5: 4)
 - Unmapped: 0 (no orphans, no duplicates)
