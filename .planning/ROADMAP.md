@@ -94,9 +94,9 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. The trade bar executes instant market orders (ticker, quantity, buy/sell) with no confirmation dialog
   5. The collapsible AI chat panel shows scrolling history, a loading indicator, and inline trade/watchlist confirmations
 
-**Plans**: 6 plans
+**Plans**: 1/6 plans executed
 
-- [ ] 04-01-PLAN.md — Scaffold Next.js TS static-export project: deps, dark Tailwind theme, types, /api client, useLivePrices SSE hook (UI-01, UI-10)
+- [x] 04-01-PLAN.md — Scaffold Next.js TS static-export project: deps, dark Tailwind theme, types, /api client, useLivePrices SSE hook (UI-01, UI-10)
 - [ ] 04-02-PLAN.md — Watchlist grid (flash, change %, progressive SVG sparkline, add/remove/select) + main PriceChart (lightweight-charts) (UI-02, UI-03)
 - [ ] 04-03-PLAN.md — Header (live total/cash + connection dot), PositionsTable, TradeBar (instant market orders, no confirm) (UI-06, UI-07, UI-09)
 - [ ] 04-04-PLAN.md — PortfolioHeatmap (recharts Treemap sized-by-weight colored-by-P&L) + PnLChart (lightweight-charts from /api/portfolio/history) (UI-04, UI-05)
@@ -130,5 +130,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Platform Foundation | 2/2 | Complete   | 2026-07-05 |
 | 2. Watchlist & Trading APIs | 4/4 | Complete   | 2026-07-05 |
 | 3. AI Chat Assistant | 3/3 | Complete   | 2026-07-05 |
-| 4. Frontend Terminal UI | 0/6 | Not started | - |
+| 4. Frontend Terminal UI | 1/6 | In Progress|  |
 | 5. Packaging & E2E Delivery | 0/TBD | Not started | - |

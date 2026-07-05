@@ -2,18 +2,18 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 1
-current_phase_name: Platform Foundation
-status: verifying
-stopped_at: Completed 03-02-PLAN.md
-last_updated: "2026-07-05T03:23:48.910Z"
-last_activity: 2026-07-04
-last_activity_desc: Roadmap created (5 phases, MVP mode); market subsystem MKT-01..04 already validated
+current_phase: 4
+current_phase_name: Frontend Terminal UI
+status: executing
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-07-05T03:44:32.996Z"
+last_activity: 2026-07-05
+last_activity_desc: Phase 4 execution started
 progress:
   total_phases: 5
   completed_phases: 3
-  total_plans: 9
-  completed_plans: 9
+  total_plans: 15
+  completed_plans: 10
   percent: 60
 ---
 
@@ -24,14 +24,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-04)
 
 **Core value:** The user watches live prices stream and can trade — manually or via the AI — with portfolio, positions, and P&L updating instantly.
-**Current focus:** Phase 1 — Platform Foundation
+**Current focus:** Phase 4 — Frontend Terminal UI
 
 ## Current Position
 
-Phase: 1 of 5 (Platform Foundation)
-Plan: 2 of 2 in current phase
-Status: Phase complete — ready for verification
-Last activity: 2026-07-04 — Roadmap created (5 phases, MVP mode); market subsystem MKT-01..04 already validated
+Phase: 4 (Frontend Terminal UI) — EXECUTING
+Plan: 2 of 6
+Status: Ready to execute
+Last activity: 2026-07-05 — Phase 4 execution started
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -64,6 +64,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03 P01 | 5min | 2 tasks | 2 files |
 | Phase 03 P02 | 15min | 2 tasks | 2 files |
 | Phase 03 P03 | 25min | - tasks | - files |
+| Phase 04 P01 | 20min | 3 tasks | 15 files |
 
 ## Accumulated Context
 
@@ -87,6 +88,9 @@ Recent decisions affecting current work:
 - [Phase 03]: Renamed watchlist router's inner add_ticker/remove_ticker handlers to post_ticker/delete_ticker to avoid shadowing the new module-level service functions
 - [Phase 03]: Chat history loaded before persisting the new user-turn row so the just-sent message is not duplicated in the LLM prompt
 - [Phase 03]: Single ActionResult model represents both trade and watchlist outcomes in one flat actions array
+- [Phase 04-01]: Pinned next@^15/react@^19/typescript@^5/tailwindcss@^3 (not v4), hand-authoring config instead of create-next-app
+- [Phase 04-01]: Added vitest as the frontend unit test runner with a colocated *.test.ts convention
+- [Phase 04-01]: applyPriceEvent uses the SSE event's own timestamp field (not Date.now()) for history points, keeping the merge function pure and deterministic for testing
 
 ### Pending Todos
 
@@ -110,6 +114,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-05T03:23:05.756Z
-Stopped at: Completed 03-02-PLAN.md
+Last session: 2026-07-05T03:44:32.991Z
+Stopped at: Completed 04-01-PLAN.md
 Resume file: None
