@@ -1,0 +1,22 @@
+# dependencies
+/node_modules
+
+# next.js build outputs
+/.next/
+/out/
+
+# testing / coverage
+/coverage
+
+# misc
+.DS_Store
+*.pem
+
+# env files (never commit secrets)
+.env*.local
+
+# vercel
+.vercel
+
+# typescript build info
+*.tsbuildinfo
