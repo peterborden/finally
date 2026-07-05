@@ -4,16 +4,16 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 4
 current_phase_name: Frontend Terminal UI
-status: executing
+status: verifying
 stopped_at: Completed 04-06-PLAN.md (Phase 4 complete)
-last_updated: "2026-07-05T03:58:25.476Z"
+last_updated: "2026-07-05T04:15:48.588Z"
 last_activity: 2026-07-05
 last_activity_desc: Phase 4 execution started
 progress:
   total_phases: 5
   completed_phases: 4
-  total_plans: 15
-  completed_plans: 15
+  total_plans: 18
+  completed_plans: 16
   percent: 80
 ---
 
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-07-04)
 
 Phase: 4 (Frontend Terminal UI) — EXECUTING
 Plan: 6 of 6
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-07-05 — Phase 4 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -69,6 +69,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 04 P02 | 18min | 2 tasks | 3 files |
 | Phase 04 P04 | 12min | 2 tasks | 2 files |
 | Phase 04 P06 | 25min | 1 tasks | 1 files |
+| Phase 05 P01 | 25min | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -103,6 +104,7 @@ Recent decisions affecting current work:
 - [Phase ?]: Chart container ref stays mounted across empty/populated states (overlay message instead of conditional unmount) to avoid stale-ref bugs
 - [Phase ?]: [Phase 04-06] Single useLivePrices() subscription lives in page.tsx and is threaded down as props (prices/history/status) rather than each component opening its own SSE connection
 - [Phase ?]: [Phase 04-06] Bottom band laid out as a 3-column grid (heatmap/P&L chart/positions table) with a full-width TradeBar strip beneath, positions table independently scrollable
+- [Phase 05-01]: Copied backend/README.md into the Dockerfile dependency layer alongside pyproject.toml/uv.lock — hatchling validates the declared readme file exists during uv sync's editable build, even before the rest of the source is copied
 
 ### Pending Todos
 
@@ -126,6 +128,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-05T03:58:25.471Z
+Last session: 2026-07-05T04:15:31.016Z
 Stopped at: Completed 04-06-PLAN.md (Phase 4 complete)
 Resume file: None

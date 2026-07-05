@@ -118,9 +118,9 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Idempotent start/stop scripts for macOS/Linux and Windows, plus `.env.example`, let a user launch the app with one command
   4. Playwright E2E tests in `test/` (with `docker-compose.test.yml`) run under `LLM_MOCK=true` and cover the key user scenarios (fresh start, add/remove ticker, buy/sell, AI chat)
 
-**Plans**: 3 plans
+**Plans**: 1/3 plans executed
 
-- [ ] 05-01-PLAN.md — Multi-stage Dockerfile + .dockerignore + volume wiring; build & verify serving + persistence (PKG-01, PKG-02)
+- [x] 05-01-PLAN.md — Multi-stage Dockerfile + .dockerignore + volume wiring; build & verify serving + persistence (PKG-01, PKG-02)
 - [ ] 05-02-PLAN.md — Idempotent mac/Linux + Windows start/stop scripts, .env.example, docker-compose.yml, README run section (PKG-03)
 - [ ] 05-03-PLAN.md — Playwright E2E suite in test/ + docker-compose.test.yml under LLM_MOCK=true covering the key scenarios (PKG-04)
 
@@ -135,4 +135,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Watchlist & Trading APIs | 4/4 | Complete   | 2026-07-05 |
 | 3. AI Chat Assistant | 3/3 | Complete   | 2026-07-05 |
 | 4. Frontend Terminal UI | 6/6 | Complete   | 2026-07-05 |
-| 5. Packaging & E2E Delivery | 0/TBD | Not started | - |
+| 5. Packaging & E2E Delivery | 1/3 | In Progress|  |
