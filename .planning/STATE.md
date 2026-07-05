@@ -6,14 +6,14 @@ current_phase: 4
 current_phase_name: Frontend Terminal UI
 status: executing
 stopped_at: Completed 04-01-PLAN.md
-last_updated: "2026-07-05T03:49:43.360Z"
+last_updated: "2026-07-05T03:51:36.446Z"
 last_activity: 2026-07-05
 last_activity_desc: Phase 4 execution started
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 15
-  completed_plans: 13
+  completed_plans: 14
   percent: 60
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-07-04)
 ## Current Position
 
 Phase: 4 (Frontend Terminal UI) — EXECUTING
-Plan: 4 of 6
+Plan: 5 of 6
 Status: Ready to execute
 Last activity: 2026-07-05 — Phase 4 execution started
 
@@ -66,6 +66,8 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03 P03 | 25min | - tasks | - files |
 | Phase 04 P01 | 20min | 3 tasks | 15 files |
 | Phase 04 P05 | 15min | 1 tasks | 1 files |
+| Phase 04 P02 | 18min | 2 tasks | 3 files |
+| Phase 04 P04 | 12min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -93,6 +95,11 @@ Recent decisions affecting current work:
 - [Phase 04-01]: Added vitest as the frontend unit test runner with a colocated *.test.ts convention
 - [Phase 04-01]: applyPriceEvent uses the SSE event's own timestamp field (not Date.now()) for history points, keeping the merge function pure and deterministic for testing
 - [Phase ?]: ChatPanel renders all message/action text as plain React text nodes (no raw-HTML injection APIs) per T-04-09 XSS mitigation
+- [Phase ?]: PriceChart mounts the lightweight-charts instance once on mount (container always rendered) and only clears/repopulates series data on ticker/points change, avoiding a stale-ref bug when the component first mounts with no ticker selected
+- [Phase ?]: PriceChart drops non-strictly-increasing history timestamps before calling series.setData() since lightweight-charts requires strictly ascending time values
+- [Phase ?]: Heatmap weight/P&L recompute from live SSE prices, falling back to last-known current_price
+- [Phase ?]: PnLChart nudges colliding whole-second recorded_at timestamps forward to satisfy lightweight-charts' strictly-ascending time requirement
+- [Phase ?]: Chart container ref stays mounted across empty/populated states (overlay message instead of conditional unmount) to avoid stale-ref bugs
 
 ### Pending Todos
 
@@ -116,6 +123,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-05T03:49:14.305Z
+Last session: 2026-07-05T03:50:49.778Z
 Stopped at: Completed 04-01-PLAN.md
 Resume file: None
