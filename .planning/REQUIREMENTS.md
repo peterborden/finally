@@ -40,12 +40,12 @@ Requirements for the initial release. Each maps to a roadmap phase. The market d
 
 ### AI Chat Assistant
 
-- [ ] **CHAT-01**: User can send a chat message (`POST /api/chat`) and receive a complete structured response (message + executed actions)
+- [x] **CHAT-01**: User can send a chat message (`POST /api/chat`) and receive a complete structured response (message + executed actions)
 - [x] **CHAT-02**: The LLM call uses LiteLLM → OpenRouter (Cerebras, `openrouter/openai/gpt-oss-120b`) with structured output, via the `cerebras-inference` skill
 - [x] **CHAT-03**: The assistant loads portfolio context (cash, positions with P&L, watchlist with live prices, total value) and recent history into the prompt
-- [ ] **CHAT-04**: Trades specified by the LLM auto-execute through the same validation as manual trades; failures are surfaced in the response
-- [ ] **CHAT-05**: Watchlist changes specified by the LLM auto-apply
-- [ ] **CHAT-06**: Conversation and executed actions are persisted in `chat_messages`
+- [x] **CHAT-04**: Trades specified by the LLM auto-execute through the same validation as manual trades; failures are surfaced in the response
+- [x] **CHAT-05**: Watchlist changes specified by the LLM auto-apply
+- [x] **CHAT-06**: Conversation and executed actions are persisted in `chat_messages`
 - [x] **CHAT-07**: `LLM_MOCK=true` returns deterministic mock responses (no API call) for tests/CI
 
 ### Frontend Terminal UI

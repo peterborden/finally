@@ -6,15 +6,15 @@ current_phase: 1
 current_phase_name: Platform Foundation
 status: verifying
 stopped_at: Completed 03-02-PLAN.md
-last_updated: "2026-07-05T03:18:09.482Z"
+last_updated: "2026-07-05T03:23:48.910Z"
 last_activity: 2026-07-04
 last_activity_desc: Roadmap created (5 phases, MVP mode); market subsystem MKT-01..04 already validated
 progress:
   total_phases: 5
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 9
-  completed_plans: 8
-  percent: 40
+  completed_plans: 9
+  percent: 60
 ---
 
 # Project State
@@ -63,6 +63,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02-watchlist-trading-apis P04 | 12min | 2 tasks | 3 files |
 | Phase 03 P01 | 5min | 2 tasks | 2 files |
 | Phase 03 P02 | 15min | 2 tasks | 2 files |
+| Phase 03 P03 | 25min | - tasks | - files |
 
 ## Accumulated Context
 
@@ -83,6 +84,9 @@ Recent decisions affecting current work:
 - [Phase ?]: Snapshot recorder loop sleeps before its first tick (not work-then-sleep like SimulatorDataSource) to avoid racing the DB's lazy first-request initialization
 - [Phase 03]: litellm and pydantic added as runtime deps (not dev-only) since chat endpoint is production code
 - [Phase 03]: app.llm stays transport-only (no fastapi/sqlite3/app.portfolio imports); litellm.completion imported lazily inside the real-call branch so mock-mode never touches the network
+- [Phase 03]: Renamed watchlist router's inner add_ticker/remove_ticker handlers to post_ticker/delete_ticker to avoid shadowing the new module-level service functions
+- [Phase 03]: Chat history loaded before persisting the new user-turn row so the just-sent message is not duplicated in the LLM prompt
+- [Phase 03]: Single ActionResult model represents both trade and watchlist outcomes in one flat actions array
 
 ### Pending Todos
 
@@ -106,6 +110,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-05T03:18:09.477Z
+Last session: 2026-07-05T03:23:05.756Z
 Stopped at: Completed 03-02-PLAN.md
 Resume file: None
