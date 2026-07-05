@@ -14,7 +14,7 @@ FinAlly is a brownfield build: the market data subsystem (SSE streaming, GBM sim
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Platform Foundation** - FastAPI app assembly, health check, static serving, and lazily-seeded SQLite database (completed 2026-07-05)
-- [ ] **Phase 2: Watchlist & Trading APIs** - REST endpoints for watchlist management and simulated portfolio trading
+- [x] **Phase 2: Watchlist & Trading APIs** - REST endpoints for watchlist management and simulated portfolio trading (completed 2026-07-05)
 - [ ] **Phase 3: AI Chat Assistant** - LLM chat via Cerebras that analyzes the portfolio and auto-executes trades/watchlist changes
 - [ ] **Phase 4: Frontend Terminal UI** - Dark Bloomberg-style Next.js terminal streaming prices and driving all interactions
 - [ ] **Phase 5: Packaging & E2E Delivery** - Single-command Docker container, persistent data, start/stop scripts, and Playwright E2E tests
@@ -53,12 +53,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. `GET /api/portfolio` returns positions, cash balance, total value, and unrealized P&L; `GET /api/portfolio/history` returns portfolio value snapshots over time
   5. Portfolio value is snapshotted every 30 seconds and immediately after each trade
 
-**Plans**: 3/4 plans executed
+**Plans**: 4/4 plans complete
 
 - [x] 02-01-PLAN.md — Watchlist API: GET/POST/DELETE /api/watchlist wired to the market source (WATCH-01, WATCH-02, WATCH-03)
 - [x] 02-02-PLAN.md — Pure trade engine: buy/sell average-cost math, fractional shares, insufficient-cash/shares rejection (PORT-03, PORT-04)
 - [x] 02-03-PLAN.md — Portfolio + trading endpoints: GET /api/portfolio, POST /api/portfolio/trade, GET /api/portfolio/history, immediate snapshot (PORT-01, PORT-02, PORT-03, PORT-05, PORT-06)
-- [ ] 02-04-PLAN.md — Periodic 30s portfolio snapshot background task in the lifespan (PORT-06)
+- [x] 02-04-PLAN.md — Periodic 30s portfolio snapshot background task in the lifespan (PORT-06)
 
 ### Phase 3: AI Chat Assistant
 
@@ -116,7 +116,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Platform Foundation | 2/2 | Complete   | 2026-07-05 |
-| 2. Watchlist & Trading APIs | 3/4 | In Progress|  |
+| 2. Watchlist & Trading APIs | 4/4 | Complete   | 2026-07-05 |
 | 3. AI Chat Assistant | 0/TBD | Not started | - |
 | 4. Frontend Terminal UI | 0/TBD | Not started | - |
 | 5. Packaging & E2E Delivery | 0/TBD | Not started | - |
