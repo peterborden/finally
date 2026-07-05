@@ -74,7 +74,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. The conversation and executed actions are persisted in `chat_messages` (actions stored as JSON)
   5. With `LLM_MOCK=true`, chat returns deterministic responses without calling OpenRouter
 
-**Plans**: TBD
+**Plans**: 3 plans
+
+- [ ] 03-01-PLAN.md — litellm dependency provisioning + supply-chain legitimacy checkpoint (CHAT-02)
+- [ ] 03-02-PLAN.md — LLM wrapper app/llm.py: structured schema, prompt builder, Cerebras call, deterministic mock (CHAT-02, CHAT-03, CHAT-07)
+- [ ] 03-03-PLAN.md — POST /api/chat: context load, auto-execute trades/watchlist via shared validated paths, persistence, tests (CHAT-01, CHAT-03, CHAT-04, CHAT-05, CHAT-06, CHAT-07)
 
 ### Phase 4: Frontend Terminal UI
 
