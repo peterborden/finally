@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 1
 current_phase_name: Platform Foundation
 status: verifying
-stopped_at: Completed 02-04-PLAN.md
-last_updated: "2026-07-05T03:15:16.928Z"
+stopped_at: Completed 03-02-PLAN.md
+last_updated: "2026-07-05T03:18:09.482Z"
 last_activity: 2026-07-04
 last_activity_desc: Roadmap created (5 phases, MVP mode); market subsystem MKT-01..04 already validated
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 9
-  completed_plans: 7
+  completed_plans: 8
   percent: 40
 ---
 
@@ -62,6 +62,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02 P03 | 25min | 3 tasks | 3 files |
 | Phase 02-watchlist-trading-apis P04 | 12min | 2 tasks | 3 files |
 | Phase 03 P01 | 5min | 2 tasks | 2 files |
+| Phase 03 P02 | 15min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -81,6 +82,7 @@ Recent decisions affecting current work:
 - [Phase 02-03]: Missing cache price for a held position falls back to valuing at avg_cost rather than raising — Keeps total_value finite; a trade against a ticker with no cached price at all is still rejected outright since there is no price to fill at
 - [Phase ?]: Snapshot recorder loop sleeps before its first tick (not work-then-sleep like SimulatorDataSource) to avoid racing the DB's lazy first-request initialization
 - [Phase 03]: litellm and pydantic added as runtime deps (not dev-only) since chat endpoint is production code
+- [Phase 03]: app.llm stays transport-only (no fastapi/sqlite3/app.portfolio imports); litellm.completion imported lazily inside the real-call branch so mock-mode never touches the network
 
 ### Pending Todos
 
@@ -104,6 +106,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-05T03:14:34.320Z
-Stopped at: Completed 02-04-PLAN.md
+Last session: 2026-07-05T03:18:09.477Z
+Stopped at: Completed 03-02-PLAN.md
 Resume file: None

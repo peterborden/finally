@@ -74,10 +74,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. The conversation and executed actions are persisted in `chat_messages` (actions stored as JSON)
   5. With `LLM_MOCK=true`, chat returns deterministic responses without calling OpenRouter
 
-**Plans**: 1/3 plans executed
+**Plans**: 2/3 plans executed
 
 - [x] 03-01-PLAN.md — litellm dependency provisioning + supply-chain legitimacy checkpoint (CHAT-02)
-- [ ] 03-02-PLAN.md — LLM wrapper app/llm.py: structured schema, prompt builder, Cerebras call, deterministic mock (CHAT-02, CHAT-03, CHAT-07)
+- [x] 03-02-PLAN.md — LLM wrapper app/llm.py: structured schema, prompt builder, Cerebras call, deterministic mock (CHAT-02, CHAT-03, CHAT-07)
 - [ ] 03-03-PLAN.md — POST /api/chat: context load, auto-execute trades/watchlist via shared validated paths, persistence, tests (CHAT-01, CHAT-03, CHAT-04, CHAT-05, CHAT-06, CHAT-07)
 
 ### Phase 4: Frontend Terminal UI
@@ -121,6 +121,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Platform Foundation | 2/2 | Complete   | 2026-07-05 |
 | 2. Watchlist & Trading APIs | 4/4 | Complete   | 2026-07-05 |
-| 3. AI Chat Assistant | 1/3 | In Progress|  |
+| 3. AI Chat Assistant | 2/3 | In Progress|  |
 | 4. Frontend Terminal UI | 0/TBD | Not started | - |
 | 5. Packaging & E2E Delivery | 0/TBD | Not started | - |
