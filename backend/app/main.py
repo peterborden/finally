@@ -17,6 +17,7 @@ from pathlib import Path
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 
+from .chat import create_chat_router
 from .db import get_db_path, init_database
 from .market import PriceCache, create_market_data_source, create_stream_router
 from .market.seed_prices import SEED_PRICES
@@ -119,6 +120,7 @@ def create_app() -> FastAPI:
     app.include_router(create_stream_router(cache))
     app.include_router(create_watchlist_router())
     app.include_router(create_portfolio_router())
+    app.include_router(create_chat_router())
 
     # --- Static frontend (mounted LAST so it never shadows /api/*) ---
 
