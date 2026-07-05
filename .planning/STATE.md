@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 1
 current_phase_name: Platform Foundation
 status: verifying
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-07-05T02:53:14.151Z"
+stopped_at: Completed 02-03-PLAN.md
+last_updated: "2026-07-05T02:58:41.586Z"
 last_activity: 2026-07-04
 last_activity_desc: Roadmap created (5 phases, MVP mode); market subsystem MKT-01..04 already validated
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 6
-  completed_plans: 4
+  completed_plans: 5
   percent: 20
 ---
 
@@ -59,6 +59,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01-platform-foundation P02 | 35min | 2 tasks | 6 files |
 | Phase 02 P02 | 15min | 1 tasks | 2 files |
 | Phase 02 P01 | 25min | 2 tasks | 3 files |
+| Phase 02 P03 | 25min | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -74,6 +75,8 @@ Recent decisions affecting current work:
 - [Phase ?]: SSE precedence test monkeypatches Request.is_disconnected because Starlette's synchronous TestClient fully drains an ASGI call before returning any response, deadlocking against a truly infinite SSE generator — Confirmed identically with httpx.ASGITransport; production endpoint code is unmodified
 - [Phase 02-02]: Trade rejections raise TradeError (exception) rather than returning a rejection object, for clean try/except -> HTTP 400 mapping in 02-03 — Simpler call-site ergonomics; matches Python idiom for validation failures
 - [Phase 02-01]: Watchlist router reads app.state.price_cache/market_source per-request (factory pattern, no globals); ticker normalized (strip+upper) on POST body and DELETE path so client casing never breaks the UNIQUE(user_id,ticker) constraint
+- [Phase 02-03]: compute_and_record_snapshot(conn, price_cache) does not commit -- callers control the transaction boundary — Lets execute_trade fold the snapshot into the trade's single commit, and lets plan 02-04's periodic background task commit on its own cadence
+- [Phase 02-03]: Missing cache price for a held position falls back to valuing at avg_cost rather than raising — Keeps total_value finite; a trade against a ticker with no cached price at all is still rejected outright since there is no price to fill at
 
 ### Pending Todos
 
@@ -97,6 +100,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-05T02:52:47.928Z
-Stopped at: Completed 02-02-PLAN.md
+Last session: 2026-07-05T02:58:41.581Z
+Stopped at: Completed 02-03-PLAN.md
 Resume file: None

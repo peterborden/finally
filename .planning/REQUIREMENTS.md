@@ -31,12 +31,12 @@ Requirements for the initial release. Each maps to a roadmap phase. The market d
 
 ### Portfolio & Trading
 
-- [ ] **PORT-01**: User can view portfolio state — positions, cash balance, total value, unrealized P&L (`GET /api/portfolio`)
-- [ ] **PORT-02**: User can execute a market order (`POST /api/portfolio/trade`) that fills instantly at the current price
+- [x] **PORT-01**: User can view portfolio state — positions, cash balance, total value, unrealized P&L (`GET /api/portfolio`)
+- [x] **PORT-02**: User can execute a market order (`POST /api/portfolio/trade`) that fills instantly at the current price
 - [x] **PORT-03**: Buys are rejected with a clear error when cash is insufficient; sells rejected when shares are insufficient
 - [x] **PORT-04**: Positions and cash update correctly on buy/sell, including fractional shares and average-cost math
-- [ ] **PORT-05**: User can view portfolio value over time (`GET /api/portfolio/history`)
-- [ ] **PORT-06**: Portfolio value is snapshotted every 30 seconds and immediately after each trade
+- [x] **PORT-05**: User can view portfolio value over time (`GET /api/portfolio/history`)
+- [x] **PORT-06**: Portfolio value is snapshotted every 30 seconds and immediately after each trade
 
 ### AI Chat Assistant
 
