@@ -20,8 +20,8 @@ Requirements for the initial release. Each maps to a roadmap phase. The market d
 - [x] **APP-02**: `GET /api/health` returns a health check for Docker/deployment
 - [x] **APP-03**: FastAPI serves the exported Next.js frontend as static files from `/`
 - [x] **DB-01**: SQLite database is lazily created and seeded on first request if absent (no migration step)
-- [ ] **DB-02**: Schema includes `users_profile`, `watchlist`, `positions`, `trades`, `portfolio_snapshots`, `chat_messages`, each with a `user_id` column defaulting to `"default"`
-- [ ] **DB-03**: Default seed creates a profile with $10,000 cash and a 10-ticker watchlist (AAPL, GOOGL, MSFT, AMZN, TSLA, NVDA, META, JPM, V, NFLX)
+- [x] **DB-02**: Schema includes `users_profile`, `watchlist`, `positions`, `trades`, `portfolio_snapshots`, `chat_messages`, each with a `user_id` column defaulting to `"default"`
+- [x] **DB-03**: Default seed creates a profile with $10,000 cash and a 10-ticker watchlist (AAPL, GOOGL, MSFT, AMZN, TSLA, NVDA, META, JPM, V, NFLX)
 
 ### Watchlist
 
@@ -98,20 +98,21 @@ Which phases cover which requirements. Populated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | MKT-01…04 | — (existing) | Complete |
-| APP-01, APP-02, APP-03 | Phase 1 | Pending |
-| DB-01, DB-02, DB-03 | Phase 1 | Pending |
-| WATCH-01, WATCH-02, WATCH-03 | Phase 2 | Pending |
-| PORT-01, PORT-02, PORT-03, PORT-04, PORT-05, PORT-06 | Phase 2 | Pending |
-| CHAT-01, CHAT-02, CHAT-03, CHAT-04, CHAT-05, CHAT-06, CHAT-07 | Phase 3 | Pending |
-| UI-01, UI-02, UI-03, UI-04, UI-05, UI-06, UI-07, UI-08, UI-09, UI-10 | Phase 4 | Pending |
-| PKG-01, PKG-02, PKG-03, PKG-04 | Phase 5 | Pending |
+| APP-01, APP-02, APP-03 | Phase 1 | Complete |
+| DB-01, DB-02, DB-03 | Phase 1 | Complete |
+| WATCH-01, WATCH-02, WATCH-03 | Phase 2 | Complete |
+| PORT-01, PORT-02, PORT-03, PORT-04, PORT-05, PORT-06 | Phase 2 | Complete |
+| CHAT-01, CHAT-02, CHAT-03, CHAT-04, CHAT-05, CHAT-06, CHAT-07 | Phase 3 | Complete |
+| UI-01, UI-02, UI-03, UI-04, UI-05, UI-06, UI-07, UI-08, UI-09, UI-10 | Phase 4 | Complete |
+| PKG-01, PKG-02, PKG-03, PKG-04 | Phase 5 | Complete |
 
 **Coverage:**
 
 - v1 requirements (new): 36 total (excludes 4 already-validated MKT-*)
 - Mapped to phases: 36 / 36 ✓ (Phase 1: 6, Phase 2: 9, Phase 3: 7, Phase 4: 10, Phase 5: 4)
 - Unmapped: 0 (no orphans, no duplicates)
+- **Complete: 36 / 36 ✓ (all v1 phases 1–5 delivered; 4 MKT-* pre-validated)**
 
 ---
 *Requirements defined: 2026-07-04*
-*Last updated: 2026-07-04 after roadmap creation*
+*Last updated: 2026-07-05 after all phases complete (v1.0 milestone)*
