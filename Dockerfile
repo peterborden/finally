@@ -27,8 +27,10 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 WORKDIR /app
 
 # Install locked runtime dependencies first so this layer caches across
-# backend source-only changes.
-COPY backend/pyproject.toml backend/uv.lock ./
+# backend source-only changes. README.md is required too: pyproject.toml
+# declares it as the package readme, and hatchling validates its presence
+# when uv builds/installs the local project.
+COPY backend/pyproject.toml backend/uv.lock backend/README.md ./
 RUN uv sync --frozen --no-dev
 
 # Copy backend source. The hatch wheel target packages ["app"], and
