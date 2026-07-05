@@ -1,0 +1,31 @@
+# Node / frontend build artifacts and caches
+node_modules
+frontend/node_modules
+frontend/.next
+frontend/out
+test/node_modules
+
+# Python build artifacts and caches
+**/__pycache__
+*.pyc
+backend/.venv
+.venv
+
+# Local SQLite databases (never bake local data into the image)
+db/*.db
+db/*.sqlite3
+*.sqlite3
+
+# Version control / planning
+.git
+.github
+.planning
+planning/archive
+
+# Secrets (never leak real credentials into the image; .env.example is fine)
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
