@@ -32,7 +32,19 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        // Chromium (M127+) auto-upgrades plain-HTTP navigations to HTTPS
+        // for any hostname other than "localhost" ("HTTPS-Upgrades"). The
+        // compose runner navigates to http://app:8000 (a non-exempt
+        // hostname) and the upgrade attempt fails with
+        // net::ERR_SSL_PROTOCOL_ERROR against a plain-HTTP server, so the
+        // feature is disabled here rather than only working around it for
+        // the localhost-only local run path.
+        launchOptions: {
+          args: ['--disable-features=HttpsUpgrades'],
+        },
+      },
     },
   ],
 });

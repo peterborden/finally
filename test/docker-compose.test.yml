@@ -6,12 +6,21 @@
 #   docker compose -f test/docker-compose.test.yml up --build \
 #     --abort-on-container-exit --exit-code-from playwright
 #
-# The `app` service uses an anonymous volume for /app/db so every run
+# The `webapp` service uses an anonymous volume for /app/db so every run
 # starts from the seeded default state (10-ticker watchlist, $10k cash) --
 # no host bind mount, no leftover trades from a previous run.
+#
+# NOTE: the app service is deliberately NOT named `app`. Chromium ships an
+# HSTS-preload list that includes the Google-owned `.app` gTLD, so a bare
+# hostname of exactly "app" gets silently upgraded to HTTPS on navigation
+# and fails with net::ERR_SSL_PROTOCOL_ERROR against this plain-HTTP
+# server (confirmed via manual repro against this image/network). Naming
+# it `webapp` sidesteps the collision entirely; playwright.config.ts also
+# disables the HttpsUpgrades feature as defense-in-depth for any other
+# TLD-like hostname a future reader might pick.
 
 services:
-  app:
+  webapp:
     build:
       context: ..
       dockerfile: Dockerfile
@@ -35,9 +44,9 @@ services:
     volumes:
       - ./:/work
     environment:
-      - E2E_BASE_URL=http://app:8000
+      - E2E_BASE_URL=http://webapp:8000
     depends_on:
-      app:
+      webapp:
         condition: service_healthy
     command: sh -c "npm install && npx playwright test"
 
