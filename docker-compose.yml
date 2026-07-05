@@ -1,0 +1,21 @@
+# Convenience wrapper around the manual docker run invocation:
+#   docker run -v finally-data:/app/db -p 8000:8000 --env-file .env finally
+#
+# This is optional convenience, not the primary launch path — use
+# scripts/start_mac.sh or scripts/start_windows.ps1 for the one-command
+# launch. To use this file directly:
+#   cp .env.example .env   # fill in keys, or leave blank / set LLM_MOCK=true
+#   docker compose up
+
+services:
+  finally:
+    build: .
+    container_name: finally
+    ports:
+      - "8000:8000"
+    volumes:
+      - finally-data:/app/db
+    env_file: .env
+
+volumes:
+  finally-data:

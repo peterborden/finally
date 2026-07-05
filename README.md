@@ -45,6 +45,38 @@ docker run -v finally-data:/app/db -p 8000:8000 --env-file .env finally
 | `MASSIVE_API_KEY` | No | Massive (Polygon.io) key for real market data; omit to use simulator |
 | `LLM_MOCK` | No | Set `true` for deterministic mock LLM responses (testing) |
 
+## Run with Docker
+
+1. Copy the environment template and fill in your keys (or leave them blank / set `LLM_MOCK=true` to run without any keys):
+
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Launch with one command:
+
+   - **macOS/Linux**: `scripts/start_mac.sh`
+   - **Windows**: `scripts/start_windows.ps1`
+
+   Both scripts build the `finally` image only if it doesn't already exist (pass `--build` / `-Build` to force a rebuild), start the container with the `finally-data` volume mounted, and print the app URL. Re-running either script is safe — it will not create a duplicate container.
+
+3. Equivalent raw Docker commands, if you prefer not to use the scripts:
+
+   ```bash
+   docker build -t finally .
+   docker run -d --name finally -v finally-data:/app/db -p 8000:8000 --env-file .env finally
+   ```
+
+   Or with Docker Compose:
+
+   ```bash
+   docker compose up
+   ```
+
+4. Open **http://localhost:8000**.
+
+5. To stop: `scripts/stop_mac.sh` (macOS/Linux) or `scripts/stop_windows.ps1` (Windows). Stopping removes the container but preserves the `finally-data` volume, so your portfolio, watchlist, and trade history persist across restarts.
+
 ## Project Structure
 
 ```
