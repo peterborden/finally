@@ -25,9 +25,9 @@ Requirements for the initial release. Each maps to a roadmap phase. The market d
 
 ### Watchlist
 
-- [ ] **WATCH-01**: User can view the watchlist with each ticker's latest price (`GET /api/watchlist`)
-- [ ] **WATCH-02**: User can add a ticker (`POST /api/watchlist`), which begins streaming in the market source
-- [ ] **WATCH-03**: User can remove a ticker (`DELETE /api/watchlist/{ticker}`), which stops it streaming
+- [x] **WATCH-01**: User can view the watchlist with each ticker's latest price (`GET /api/watchlist`)
+- [x] **WATCH-02**: User can add a ticker (`POST /api/watchlist`), which begins streaming in the market source
+- [x] **WATCH-03**: User can remove a ticker (`DELETE /api/watchlist/{ticker}`), which stops it streaming
 
 ### Portfolio & Trading
 
