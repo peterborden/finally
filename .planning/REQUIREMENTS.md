@@ -57,7 +57,7 @@ Requirements for the initial release. Each maps to a roadmap phase. The market d
 - [ ] **UI-05**: P&L line chart plots total portfolio value over time from `portfolio_snapshots`
 - [ ] **UI-06**: Positions table shows ticker, quantity, avg cost, current price, unrealized P&L, % change
 - [ ] **UI-07**: Trade bar (ticker, quantity, buy/sell) executes market orders instantly with no confirmation dialog
-- [ ] **UI-08**: Collapsible AI chat panel with scrolling history, loading indicator, and inline trade/watchlist confirmations
+- [x] **UI-08**: Collapsible AI chat panel with scrolling history, loading indicator, and inline trade/watchlist confirmations
 - [ ] **UI-09**: Header shows live total value, cash balance, and a connection status dot (green/yellow/red)
 - [x] **UI-10**: Frontend consumes SSE via native `EventSource` with automatic reconnection
 
