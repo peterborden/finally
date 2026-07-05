@@ -21,6 +21,7 @@ from .db import get_db_path, init_database
 from .market import PriceCache, create_market_data_source, create_stream_router
 from .market.seed_prices import SEED_PRICES
 from .portfolio import create_portfolio_router
+from .snapshots import SnapshotRecorder
 from .watchlist import create_watchlist_router
 
 logger = logging.getLogger(__name__)
@@ -53,6 +54,7 @@ def _build_lifespan(cache: PriceCache):  # type: ignore[no-untyped-def]
         of the app from serving.
         """
         app.state.market_source = None
+        app.state.snapshot_task = None
 
         source = create_market_data_source(cache)
         try:
@@ -64,8 +66,22 @@ def _build_lifespan(cache: PriceCache):  # type: ignore[no-untyped-def]
             )
 
         try:
+            recorder = SnapshotRecorder()
+            recorder.start(cache)
+            app.state.snapshot_task = recorder
+        except Exception:
+            logger.exception(
+                "Portfolio snapshotter failed to start; continuing without periodic snapshots"
+            )
+
+        try:
             yield
         finally:
+            if app.state.snapshot_task is not None:
+                try:
+                    await app.state.snapshot_task.stop()
+                except Exception:
+                    logger.exception("Portfolio snapshotter failed to stop cleanly")
             if app.state.market_source is not None:
                 try:
                     await app.state.market_source.stop()
