@@ -53,8 +53,8 @@ Requirements for the initial release. Each maps to a roadmap phase. The market d
 - [x] **UI-01**: Dark, data-dense Bloomberg-style single-page layout with the specified color scheme (Tailwind custom theme)
 - [x] **UI-02**: Watchlist grid shows current price flashing green/red on change (fading ~500ms), daily change %, and a progressive sparkline accumulated from SSE
 - [x] **UI-03**: Clicking a watchlist ticker selects it in a larger main chart area (price over time)
-- [ ] **UI-04**: Portfolio heatmap/treemap sizes positions by weight and colors by P&L
-- [ ] **UI-05**: P&L line chart plots total portfolio value over time from `portfolio_snapshots`
+- [x] **UI-04**: Portfolio heatmap/treemap sizes positions by weight and colors by P&L
+- [x] **UI-05**: P&L line chart plots total portfolio value over time from `portfolio_snapshots`
 - [ ] **UI-06**: Positions table shows ticker, quantity, avg cost, current price, unrealized P&L, % change
 - [ ] **UI-07**: Trade bar (ticker, quantity, buy/sell) executes market orders instantly with no confirmation dialog
 - [x] **UI-08**: Collapsible AI chat panel with scrolling history, loading indicator, and inline trade/watchlist confirmations
