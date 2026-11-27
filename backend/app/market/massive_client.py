@@ -159,7 +159,10 @@ class MassiveDataSource(MarketDataSource):
 
     def _fetch_snapshots(self) -> list:
         """Synchronous call to the Massive REST API. Runs in a thread."""
+        # NOTE: pass the enum's .value ("stocks"), not the enum itself. The massive
+        # SDK interpolates market_type directly into the URL path, and this plain
+        # Enum stringifies to "SnapshotMarketType.STOCKS" -> malformed path -> 404.
         return self._client.get_snapshot_all(
-            market_type=SnapshotMarketType.STOCKS,
+            market_type=SnapshotMarketType.STOCKS.value,
             tickers=self._tickers,
         )
